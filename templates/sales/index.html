@@ -1,0 +1,176 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Sales
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container mt-4">
+
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <h2>Sales History</h2>
+
+
+        <div>
+
+            <a href="/sales/add" class="btn btn-primary">
+                Add Sale
+            </a>
+
+
+            <a href="/sales/export" class="btn btn-success">
+                Export CSV
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+
+    <form method="GET" action="/sales/" class="mb-3">
+
+
+        <div class="input-group">
+
+
+            <input
+                type="text"
+                name="search"
+                class="form-control"
+                placeholder="Search sales..."
+                value="{{ search }}">
+
+
+            <button class="btn btn-outline-secondary">
+                Search
+            </button>
+
+
+        </div>
+
+
+    </form>
+
+
+
+    <div class="table-responsive">
+
+
+        <table class="table table-bordered table-striped">
+
+
+            <thead class="table-dark">
+
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Product</th>
+
+                    <th>Quantity</th>
+
+                    <th>Total Price</th>
+
+                    <th>Date</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+
+            </thead>
+
+
+
+            <tbody>
+
+
+            {% for sale in sales %}
+
+
+                <tr>
+
+
+                    <td>
+                        {{ sale.id }}
+                    </td>
+
+
+                    <td>
+                        {{ sale.product_name }}
+                    </td>
+
+
+                    <td>
+                        {{ sale.quantity }}
+                    </td>
+
+
+                    <td>
+                        ₹{{ sale.total }}
+                    </td>
+
+
+                    <td>
+                        {{ sale.sold_at }}
+                    </td>
+
+
+                    <td>
+
+
+                        <form method="POST" action="/sales/delete/{{ sale.id }}" style="display:inline;">
+                            <button
+                                type="submit"
+                                onclick="return confirm('Delete this sale?')"
+                                class="btn btn-danger btn-sm">
+
+                                Delete
+
+                           </button>
+                       </form>
+
+
+                    </td>
+
+
+                </tr>
+
+
+            {% else %}
+
+
+                <tr>
+
+                    <td colspan="6" class="text-center">
+
+                        No sales found
+
+                    </td>
+
+                </tr>
+
+
+            {% endfor %}
+
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

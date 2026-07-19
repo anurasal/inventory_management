@@ -1,0 +1,103 @@
+body {
+    background-color: #f8f9fa;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+
+/* Navbar */
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+
+
+/* Cards */
+
+.card {
+    border-radius: 12px;
+}
+
+
+.card-header {
+    border-radius: 12px 12px 0 0 !important;
+}
+
+
+
+/* Dashboard cards */
+
+.display-5 {
+    font-size: 2.5rem;
+}
+
+
+
+/* Tables */
+
+.table {
+    margin-bottom: 0;
+}
+
+
+.table th {
+    white-space: nowrap;
+}
+
+
+
+/* Buttons */
+
+.btn {
+    border-radius: 8px;
+}
+
+
+
+/* Forms */
+
+.form-control,
+.form-select {
+    border-radius: 8px;
+}
+
+
+.form-control:focus,
+.form-select:focus {
+    box-shadow: none;
+}
+
+
+
+/* Empty states */
+
+.text-center .display-1 {
+    opacity: 0.5;
+}
+
+
+
+/* Login/Register pages */
+
+.auth-card {
+    max-width: 450px;
+    margin: auto;
+}
+
+
+
+/* Mobile improvements */
+
+@media (max-width: 768px) {
+
+    .btn {
+        margin-bottom: 5px;
+    }
+
+
+    .table {
+        font-size: 14px;
+    }
+
+}

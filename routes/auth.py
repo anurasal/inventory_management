@@ -1,97 +1,103 @@
-from flask import Blueprint, render_template, request, redirect, session, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from database import db
-
+from database import get_db_connection
 
 auth_bp = Blueprint("auth", __name__)
 
 
 @auth_bp.route("/register", methods=["GET", "POST"])
 def register():
+    if session.get("user_id"):
+        return redirect(url_for("dashboard.dashboard"))
 
     if request.method == "POST":
-
-        username = request.form.get("username")
-        password = request.form.get("password")
-        confirmation = request.form.get("confirmation")
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "")
+        confirmation = request.form.get("confirmation", "")
 
         if not username:
-            flash("Username required")
-            return redirect("/register")
+            flash("Username is required.", "danger")
+            return render_template("register.html")
 
         if not password:
-            flash("Password required")
-            return redirect("/register")
+            flash("Password is required.", "danger")
+            return render_template("register.html")
 
         if password != confirmation:
-            flash("Passwords do not match")
-            return redirect("/register")
+            flash("Passwords do not match.", "danger")
+            return render_template("register.html")
 
-        existing = db.execute(
-            "SELECT * FROM users WHERE username = ?",
-            username
-        )
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        existing = cursor.execute(
+            "SELECT id FROM users WHERE username = ?",
+            (username,)
+        ).fetchone()
 
         if existing:
-            flash("Username already exists")
-            return redirect("/register")
+            conn.close()
+            flash("Username already exists.", "danger")
+            return render_template("register.html")
 
-        hash_password = generate_password_hash(password)
+        hashed_password = generate_password_hash(password)
 
-        db.execute(
-            """
-            INSERT INTO users(username, hash)
-            VALUES(?, ?)
-            """,
-            username,
-            hash_password
+        cursor.execute(
+            "INSERT INTO users (username, password) VALUES (?, ?)",
+            (username, hashed_password)
         )
 
-        flash("Registration Successful")
-        return redirect("/login")
+        conn.commit()
+        conn.close()
+
+        flash("Registration successful. Please login.", "success")
+        return redirect(url_for("auth.login"))
 
     return render_template("register.html")
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
-
     session.clear()
 
     if request.method == "POST":
-
-        username = request.form.get("username")
-        password = request.form.get("password")
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "")
 
         if not username:
-            flash("Username required")
-            return redirect("/login")
+            flash("Username is required.", "danger")
+            return render_template("login.html")
 
         if not password:
-            flash("Password required")
-            return redirect("/login")
+            flash("Password is required.", "danger")
+            return render_template("login.html")
 
-        rows = db.execute(
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        user = cursor.execute(
             "SELECT * FROM users WHERE username = ?",
-            username
-        )
+            (username,)
+        ).fetchone()
 
-        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], password):
-            flash("Invalid username or password")
-            return redirect("/login")
+        conn.close()
 
-        session["user_id"] = rows[0]["id"]
-        session["username"] = rows[0]["username"]
+        if user is None or not check_password_hash(user["password"], password):
+            flash("Invalid username or password.", "danger")
+            return render_template("login.html")
 
-        return redirect("/")
+        session["user_id"] = user["id"]
+        session["username"] = user["username"]
+
+        flash(f"Welcome, {user['username']}!", "success")
+        return redirect(url_for("dashboard.dashboard"))
 
     return render_template("login.html")
 
 
 @auth_bp.route("/logout")
 def logout():
-
     session.clear()
-
-    return redirect("/login")
+    flash("You have been logged out.", "info")
+    return redirect(url_for("auth.login"))
