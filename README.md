@@ -4,7 +4,7 @@
 (Add your CS50 video link here)
 
 #### GitHub Repository:
-https://https://github.com/anurasal/inventory_management
+https://github.com/anurasal/inventory_management
 
 #### Description:
 
@@ -166,7 +166,7 @@ inventory_management/
 Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/anurasal/inventory_management.git
 ```
 
 Go inside the project folder:
