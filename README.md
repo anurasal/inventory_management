@@ -289,6 +289,14 @@ Possible improvements:
 
 ---
 
+## Acknowledgements
+
+This project was developed by me as my CS50 Final Project.
+
+During development, I used AI tools, including ChatGPT, as a programming assistant for learning concepts, debugging errors, explaining Flask and SQL queries, and improving parts of the implementation and documentation. All final design decisions, code integration, testing, and the completed project were carried out by me.
+
+---
+
 # Author
 
 Anushka Rasal
