@@ -188,7 +188,7 @@ pip install -r requirements.txt
 Start Flask server:
 
 ```bash
-flask run
+flask --app app run
 ```
 
 Open your browser and visit:
