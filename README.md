@@ -1,7 +1,7 @@
 # Inventory Management System
 
 #### Video Demo:
-
+https://youtu.be/1NiWH3D9GuM
 
 #### GitHub Repository:
 https://github.com/anurasal/inventory_management
