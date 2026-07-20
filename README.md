@@ -1,7 +1,7 @@
 # Inventory Management System
 
 #### Video Demo:
-(Add your CS50 video link here)
+
 
 #### GitHub Repository:
 https://github.com/anurasal/inventory_management
