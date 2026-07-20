@@ -63,12 +63,20 @@ Suppliers
                     </a>
 
 
-                    <a href="/suppliers/delete/{{ supplier.id }}"
-                       class="btn btn-danger btn-sm"
-                       onclick="return confirm('Delete supplier?')">
-                        Delete
-                    </a>
+                    <form action="{{ url_for('suppliers.delete', id=supplier.id) }}"
+                          method="POST"
+                          style="display:inline;">
 
+                        <button
+                            type="submit"
+                            class="btn btn-danger btn-sm"
+                            onclick="return confirm('Delete this supplier?')">
+
+                            Delete
+
+                        </button>
+
+                    </form>
                 </td>
 
             </tr>

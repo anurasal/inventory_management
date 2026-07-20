@@ -101,14 +101,20 @@ Categories
                         </a>
 
 
-                        <a
-                        href="/categories/delete/{{ category.id }}"
-                        onclick="return confirm('Delete this category?')"
-                        class="btn btn-danger btn-sm">
+                        <form action="{{ url_for('categories.delete', id=category.id) }}"
+                              method="POST"
+                              style="display:inline;">
 
-                            Delete
+                            <button
+                                type="submit"
+                                class="btn btn-danger btn-sm"
+                                onclick="return confirm('Delete this category?')">
 
-                        </a>
+                                Delete
+
+                            </button>
+
+                        </form>
 
 
                     </td>
